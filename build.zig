@@ -35,6 +35,9 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    exe.linkLibC();
+    exe.addIncludePath(b.path("src"));
+    exe.addCSourceFiles(.{ .root = b.path("src"), .files = &.{"c_string.c"} });
 
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default

@@ -4,12 +4,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef struct String {
+extern struct String {
 	char* text;
 	uint32_t length;
-} String;
+};
 
-String* cstring_create(String* result, char* s);
+typedef struct String String;
+
+String* cstring_create(String* result, const char* s);
 void cstring_free(String* s);
 bool cstring_equals(String* s, String* t);
 

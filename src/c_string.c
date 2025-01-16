@@ -3,9 +3,10 @@
 #include <string.h>
 #include "c_string.h"
 
-String* cstring_create(String* result, char* s) {
+String* cstring_create(String* result, const char* s) {
 	uint32_t len = strlen(s);
-	
+
+	result = malloc(sizeof(String));	
 	result->text = strdup(s);
 	result->length = len;
 
