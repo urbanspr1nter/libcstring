@@ -37,7 +37,7 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 
 	va_end(args);
 
-	result->length = currLength;	
+	result->length = strlen(result->text);	
 	result->isValid = true;
 
 	return result;

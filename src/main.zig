@@ -56,6 +56,27 @@ test "checks if strings are equal" {
     try std.testing.expect(c_string.cstring_equals(buffer_1, buffer_2));
 }
 
+test "concatenation of a single string" {
+    var buffer_1: [*c]c_string.String = undefined;
+    buffer_1 = c_string.cstring_create(buffer_1, "hello");
+
+    var buffer: [*c]c_string.String = undefined;
+    buffer = c_string.cstring_concat(buffer, 1, buffer_1);
+
+    try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.text));
+    try std.testing.expect(buffer.*.length == 5);
+    try std.testing.expect(buffer.*.isValid);
+}
+
+test "concatenation of no strings" {
+    var buffer: [*c]c_string.String = undefined;
+    buffer = c_string.cstring_concat(buffer, 0, @as([*c]c_string.String, null));
+
+    try std.testing.expectEqualStrings("", toZigStr(buffer.*.text));
+    try std.testing.expect(buffer.*.length == 0);
+    try std.testing.expect(buffer.*.isValid);
+}
+
 test "concatenation of multiple strings" {
     var buffer_1: [*c]c_string.String = undefined;
     buffer_1 = c_string.cstring_create(buffer_1, "hello");
@@ -70,4 +91,6 @@ test "concatenation of multiple strings" {
     buffer = c_string.cstring_concat(buffer, 3, buffer_1, buffer_2, buffer_3);
 
     try std.testing.expectEqualStrings("helloworldbye", toZigStr(buffer.*.text));
+    try std.testing.expect(buffer.*.length == 13);
+    try std.testing.expect(buffer.*.isValid);
 }
