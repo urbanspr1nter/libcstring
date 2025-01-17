@@ -24,6 +24,16 @@ test "creates a string" {
     try std.testing.expectEqual(11, buffer.*.length);
 }
 
+test "creates an empty string" {
+    var buffer: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "");
+
+    try std.testing.expectEqualStrings("", toZigStr(buffer.*.text));
+    try std.testing.expect(buffer.*.length == 0);
+    try std.testing.expect(buffer.*.isValid);
+}
+
 test "frees a string" {
     var buffer: [*c]c_string.String = undefined;
 
