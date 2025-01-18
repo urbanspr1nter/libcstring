@@ -43,6 +43,55 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 	return result;
 }
 
+
+StringList* cstring_split(StringList* result, String* s, const char separator) {
+	if (s == NULL) {
+		fprintf(stderr, "Must provide a string to split.\n");
+		exit(1);
+	}
+
+	char* copiedString = strdup(s->text);
+	
+	char* separatorString = malloc(sizeof(char) * 2);
+	if (separatorString == NULL) {
+		fprintf(stderr, "Couldn't allocate memory for the separator string.\n");	
+		exit(1);
+	}
+	separatorString[0] = separator;
+	separatorString[1] = '\0';
+
+	char* savedPtr;
+	char* token = strtok_r(copiedString, separatorString, &savedPtr);
+
+	uint32_t elementCount = 0;
+	result = malloc(sizeof(StringList));
+	if (result == NULL) {
+		fprintf(stderr, "Couldn't allocate memory for the result pointer.\n");
+		exit(1);
+	}
+
+	while (token != NULL) {
+		elementCount++;
+		result->strings = realloc(result->strings, sizeof(String*) * elementCount);
+		if (result->strings == NULL) {
+			fprintf(stderr, "Couldn't allocate memory for result strings.\n");
+			exit(1);
+		}
+
+		uint32_t index = elementCount - 1;
+		*(result->strings + index) = cstring_create(result->strings + index, token);
+
+		token = strtok_r(NULL, separatorString, &savedPtr);
+	}
+
+	result->length = elementCount;
+
+	free(separatorString);
+	free(copiedString);
+
+	return result;	
+}
+
 void cstring_free(String* s) {
 	if (s->text != NULL) {
 		free(s->text);
