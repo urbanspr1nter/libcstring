@@ -16,6 +16,11 @@ String* cstring_create(String* result, const char* s) {
 	uint32_t len = strlen(s);
 
 	result = malloc(sizeof(String));	
+	if (result == NULL) {
+		fprintf(stderr, "Error allocating memory\n");
+		exit(1);
+	}
+
 	result->text = strdup(s);
 	result->length = len;
 
@@ -26,7 +31,17 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 	uint32_t currLength = 0;
 
 	result = malloc(sizeof(String));
+	if (result == NULL) {
+		fprintf(stderr, "Error allocating memory\n");
+		exit(1);
+	}
+
 	result->text = malloc(sizeof(char) * 1);
+	if (result->text == NULL) { 
+		fprintf(stderr, "Error allocating memory\n");
+		exit(1);
+	}
+
 	*(result->text) = '\0';
 
 	va_list args;
@@ -40,6 +55,11 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 		currLength += (curr->length + (i == count - 1 ? 1 : 0));
 
 		result->text = realloc(result->text, sizeof(char) * currLength);		
+		if (result->text == NULL) {
+			fprintf(stderr, "Error allocating memory\n");
+			exit(1);
+		}
+
 		result->text = strncat(result->text, curr->text, curr->length);
 	}
 
@@ -53,6 +73,10 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 
 String* cstring_ltrim(String* result, String* s) {
 	result = malloc(sizeof(String));
+	if (result == NULL) { 
+		fprintf(stderr, "Error allocating memory\n");
+		exit(1); 
+	}
 
 	char* startPtr;
 	for (uint32_t i = 0; i < s->length; i++) {
@@ -70,6 +94,10 @@ String* cstring_ltrim(String* result, String* s) {
 
 String* cstring_rtrim(String* result, String* s) {
 	result = malloc(sizeof(String));
+	if (result == NULL) {
+		fprintf(stderr, "Error allocating memory\n");
+		exit(1);
+	}
 
 	char* workingStr = strdup(s->text);
 	for (uint32_t i = s->length - 1; i > 0; i--) {
