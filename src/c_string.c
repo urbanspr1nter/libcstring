@@ -18,7 +18,6 @@ String* cstring_create(String* result, const char* s) {
 	result = malloc(sizeof(String));	
 	result->text = strdup(s);
 	result->length = len;
-	result->isValid = true;
 
 	return result;	
 }
@@ -47,7 +46,6 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 	va_end(args);
 
 	result->length = strlen(result->text);	
-	result->isValid = true;
 
 	return result;
 }
@@ -66,7 +64,6 @@ String* cstring_ltrim(String* result, String* s) {
 
 	result->text = strdup(startPtr);
 	result->length = strlen(result->text);
-	result->isValid = true;
 	
 	return result;
 }
@@ -84,7 +81,6 @@ String* cstring_rtrim(String* result, String* s) {
 
 	result->text = workingStr;
 	result->length = strlen(result->text);
-	result->isValid = true; 
 
 	return result;
 }
@@ -158,7 +154,6 @@ void cstring_free(String* s) {
 	}
 
 	s->length = 0;
-	s->isValid = false;
 
 	free(s);
 }

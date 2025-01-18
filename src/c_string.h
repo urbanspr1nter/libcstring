@@ -8,7 +8,6 @@
 extern struct String {
 	char* text;
 	uint32_t length;
-	bool isValid;
 };
 
 extern struct StringList {

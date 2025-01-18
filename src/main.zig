@@ -25,7 +25,6 @@ test "creates an empty string" {
 
     try std.testing.expectEqualStrings("", toZigStr(buffer.*.text));
     try std.testing.expect(buffer.*.length == 0);
-    try std.testing.expect(buffer.*.isValid);
 }
 
 test "frees a string" {
@@ -59,7 +58,6 @@ test "concatenation of a single string" {
 
     try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.text));
     try std.testing.expect(buffer.*.length == 5);
-    try std.testing.expect(buffer.*.isValid);
 }
 
 test "concatenation of no strings" {
@@ -68,7 +66,6 @@ test "concatenation of no strings" {
 
     try std.testing.expectEqualStrings("", toZigStr(buffer.*.text));
     try std.testing.expect(buffer.*.length == 0);
-    try std.testing.expect(buffer.*.isValid);
 }
 
 test "concatenation of multiple strings" {
@@ -86,7 +83,6 @@ test "concatenation of multiple strings" {
 
     try std.testing.expectEqualStrings("helloworldbye", toZigStr(buffer.*.text));
     try std.testing.expect(buffer.*.length == 13);
-    try std.testing.expect(buffer.*.isValid);
 }
 
 test "splits a string by spaces" {
