@@ -3,6 +3,15 @@
 #include <string.h>
 #include "c_string.h"
 
+static bool isWhitespace(const char c) {
+	if (c == ' ' || c == '\n' || c == '\t') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 String* cstring_create(String* result, const char* s) {
 	uint32_t len = strlen(s);
 
@@ -43,6 +52,56 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 	return result;
 }
 
+
+String* cstring_ltrim(String* result, String* s) {
+	result = malloc(sizeof(String));
+
+	char* startPtr;
+	for (uint32_t i = 0; i < s->length; i++) {
+		if (!isWhitespace(s->text[i])) {
+			startPtr = s->text + i;
+			break;
+		}
+	}
+
+	result->text = strdup(startPtr);
+	result->length = strlen(result->text);
+	result->isValid = true;
+	
+	return result;
+}
+
+String* cstring_rtrim(String* result, String* s) {
+	result = malloc(sizeof(String));
+
+	char* workingStr = strdup(s->text);
+	for (uint32_t i = s->length - 1; i > 0; i--) {
+		if (!isWhitespace(workingStr[i])) {
+			*(workingStr + i + 1) = '\0';
+			break;
+		}
+	}
+
+	result->text = workingStr;
+	result->length = strlen(result->text);
+	result->isValid = true; 
+
+	return result;
+}
+
+String* cstring_trim(String* result, String* s) {
+	String* ltrimmed;
+	ltrimmed = cstring_ltrim(ltrimmed, s);
+
+	String* rtrimmed;
+	rtrimmed = cstring_rtrim(rtrimmed, ltrimmed);
+
+	result = rtrimmed;
+
+	free(ltrimmed);
+
+	return result;
+}
 
 StringList* cstring_split(StringList* result, String* s, const char separator) {
 	if (s == NULL) {

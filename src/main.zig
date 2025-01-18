@@ -144,3 +144,39 @@ test "splits only 1 word" {
     try std.testing.expect(buffer.*.length == 1);
     try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.strings[0].*.text));
 }
+
+test "left trims a string" {
+    var buffer: [*c]c_string.String = undefined;
+
+    var sample: [*c]c_string.String = undefined;
+    sample = c_string.cstring_create(sample, "                       hello ");
+
+    buffer = c_string.cstring_ltrim(buffer, sample);
+
+    try std.testing.expectEqualStrings("hello ", toZigStr(buffer.*.text));
+    try std.testing.expect(buffer.*.length == 6);
+}
+
+test "right trims a string" {
+    var buffer: [*c]c_string.String = undefined;
+
+    var sample: [*c]c_string.String = undefined;
+    sample = c_string.cstring_create(sample, "hello                                   ");
+
+    buffer = c_string.cstring_rtrim(buffer, sample);
+
+    try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.text));
+    try std.testing.expect(buffer.*.length == 5);
+}
+
+test "trims a string" {
+    var buffer: [*c]c_string.String = undefined;
+
+    var sample: [*c]c_string.String = undefined;
+    sample = c_string.cstring_create(sample, "                          hello               ");
+
+    buffer = c_string.cstring_trim(buffer, sample);
+
+    try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.text));
+    try std.testing.expect(buffer.*.length == 5);
+}

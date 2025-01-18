@@ -21,6 +21,9 @@ typedef struct StringList StringList;
 
 String* cstring_create(String* result, const char* s);
 String* cstring_concat(String* result, uint32_t count, ...);
+String* cstring_ltrim(String* result, String* s);
+String* cstring_rtrim(String* result, String* s);
+String* cstring_trim(String* result, String* s);
 StringList* cstring_split(StringList* result, String* s, const char separator);
 void cstring_free(String* s);
 bool cstring_equals(String* s, String* t);
