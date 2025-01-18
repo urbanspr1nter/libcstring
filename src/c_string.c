@@ -203,6 +203,10 @@ bool cstring_startsWith(String* s, String* t) {
 }
 
 bool cstring_endsWith(String* s, String* t) {
+	if (strstr(s->text, t->text) == NULL) {
+		return false;
+	}
+
 	if (strcmp(strstr(s->text, t->text), t->text) == 0) {
 		return true;
 	}

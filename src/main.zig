@@ -180,6 +180,11 @@ test "trims a string" {
 test "string starts with positive case" {
     var buffer: [*c]c_string.String = undefined;
     var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello, hello there!");
+    sample = c_string.cstring_create(sample, "hello");
+
+    try std.testing.expect(c_string.cstring_startsWith(buffer, sample));
 }
 
 test "string starts with negative case" {
@@ -195,7 +200,7 @@ test "string starts with negative case" {
     try std.testing.expect(result == false);
 }
 
-test "string ends with" {
+test "string ends with positive case" {
     var buffer: [*c]c_string.String = undefined;
 
     var sample: [*c]c_string.String = undefined;
@@ -206,4 +211,16 @@ test "string ends with" {
     const result = c_string.cstring_endsWith(buffer, sample);
 
     try std.testing.expect(result);
+}
+
+test "string ends with negative case" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello world");
+    sample = c_string.cstring_create(sample, "worldz");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
 }
