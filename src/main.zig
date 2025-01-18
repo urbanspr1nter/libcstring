@@ -392,3 +392,97 @@ test "string ends with special characters" {
 
     try std.testing.expect(result == true);
 }
+test "splits a string with consecutive delimiters" {
+    var buffer: [*c]c_string.StringList = undefined;
+    var str: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello,,world,,how,,are,,you");
+    buffer = c_string.cstring_split(buffer, str, ',');
+
+    try std.testing.expect(buffer.*.length == 5);
+    try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.strings[0].*.text));
+    try std.testing.expectEqualStrings("world", toZigStr(buffer.*.strings[1].*.text));
+    try std.testing.expectEqualStrings("how", toZigStr(buffer.*.strings[2].*.text));
+    try std.testing.expectEqualStrings("are", toZigStr(buffer.*.strings[3].*.text));
+    try std.testing.expectEqualStrings("you", toZigStr(buffer.*.strings[4].*.text));
+}
+
+test "splits a string with leading and trailing delimiters" {
+    var buffer: [*c]c_string.StringList = undefined;
+    var str: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, ",hello,world,");
+    buffer = c_string.cstring_split(buffer, str, ',');
+
+    try std.testing.expect(buffer.*.length == 2);
+    try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.strings[0].*.text));
+    try std.testing.expectEqualStrings("world", toZigStr(buffer.*.strings[1].*.text));
+}
+
+test "splits a string with no delimiters" {
+    var buffer: [*c]c_string.StringList = undefined;
+    var str: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "helloworld");
+    buffer = c_string.cstring_split(buffer, str, ' ');
+
+    try std.testing.expect(buffer.*.length == 1);
+    try std.testing.expectEqualStrings("helloworld", toZigStr(buffer.*.strings[0].*.text));
+}
+
+test "splits an empty string" {
+    var buffer: [*c]c_string.StringList = undefined;
+    var str: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "");
+    buffer = c_string.cstring_split(buffer, str, ' ');
+
+    try std.testing.expect(buffer.*.length == 0);
+}
+
+test "splits a string with multiple delimiters" {
+    var buffer: [*c]c_string.StringList = undefined;
+    var str: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello,world;how:are you");
+    buffer = c_string.cstring_split(buffer, str, ',');
+
+    try std.testing.expect(buffer.*.length == 2);
+    try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.strings[0].*.text));
+
+    buffer = c_string.cstring_split(buffer, str, ';');
+
+    try std.testing.expect(buffer.*.length == 2);
+    try std.testing.expectEqualStrings("hello,world", toZigStr(buffer.*.strings[0].*.text));
+    try std.testing.expectEqualStrings("how:are you", toZigStr(buffer.*.strings[1].*.text));
+
+    buffer = c_string.cstring_split(buffer, str, ':');
+
+    try std.testing.expect(buffer.*.length == 2);
+    try std.testing.expectEqualStrings("hello,world;how", toZigStr(buffer.*.strings[0].*.text));
+    try std.testing.expectEqualStrings("are you", toZigStr(buffer.*.strings[1].*.text));
+}
+
+test "splits a string with special characters" {
+    var buffer: [*c]c_string.StringList = undefined;
+    var str: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello!@#world$%^how&*are~you");
+    buffer = c_string.cstring_split(buffer, str, '!');
+
+    try std.testing.expect(buffer.*.length == 2);
+    try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.strings[0].*.text));
+    try std.testing.expectEqualStrings("@#world$%^how&*are~you", toZigStr(buffer.*.strings[1].*.text));
+
+    buffer = c_string.cstring_split(buffer, str, '$');
+
+    try std.testing.expect(buffer.*.length == 2);
+    try std.testing.expectEqualStrings("hello!@#world", toZigStr(buffer.*.strings[0].*.text));
+    try std.testing.expectEqualStrings("%^how&*are~you", toZigStr(buffer.*.strings[1].*.text));
+
+    buffer = c_string.cstring_split(buffer, str, '~');
+
+    try std.testing.expect(buffer.*.length == 2);
+    try std.testing.expectEqualStrings("hello!@#world$%^how&*are", toZigStr(buffer.*.strings[0].*.text));
+    try std.testing.expectEqualStrings("you", toZigStr(buffer.*.strings[1].*.text));
+}
