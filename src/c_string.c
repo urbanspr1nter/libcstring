@@ -207,6 +207,10 @@ bool cstring_endsWith(String* s, String* t) {
 		return false;
 	}
 
+	if (strlen(t->text) == 0 || strlen(s->text) == 0) {
+		return true;
+	}
+
 	if (strcmp(strstr(s->text, t->text), t->text) == 0) {
 		return true;
 	}

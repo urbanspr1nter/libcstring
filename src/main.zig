@@ -224,3 +224,171 @@ test "string ends with negative case" {
 
     try std.testing.expect(result == false);
 }
+
+test "string starts with empty buffer" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "");
+    sample = c_string.cstring_create(sample, "hello");
+
+    const result = c_string.cstring_startsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string starts with empty sample" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello");
+    sample = c_string.cstring_create(sample, "");
+
+    const result = c_string.cstring_startsWith(buffer, sample);
+
+    try std.testing.expect(result == true);
+}
+
+test "string starts with identical strings" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello");
+    sample = c_string.cstring_create(sample, "hello");
+
+    const result = c_string.cstring_startsWith(buffer, sample);
+
+    try std.testing.expect(result == true);
+}
+
+test "string starts with prefix longer than buffer" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello");
+    sample = c_string.cstring_create(sample, "hello there");
+
+    const result = c_string.cstring_startsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string starts with case sensitivity" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "Hello");
+    sample = c_string.cstring_create(sample, "hello");
+
+    const result = c_string.cstring_startsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string starts with whitespace prefix" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, " hello");
+    sample = c_string.cstring_create(sample, "hello");
+
+    const result = c_string.cstring_startsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string starts with special characters" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "!@#hello");
+    sample = c_string.cstring_create(sample, "!@#");
+
+    const result = c_string.cstring_startsWith(buffer, sample);
+
+    try std.testing.expect(result == true);
+}
+
+test "string ends with empty buffer" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "");
+    sample = c_string.cstring_create(sample, "world");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string ends with empty sample" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello world");
+    sample = c_string.cstring_create(sample, "");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result == true);
+}
+
+test "string ends with identical strings" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello world");
+    sample = c_string.cstring_create(sample, "hello world");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result == true);
+}
+
+test "string ends with suffix longer than buffer" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "world");
+    sample = c_string.cstring_create(sample, "hello world");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string ends with case sensitivity" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello world");
+    sample = c_string.cstring_create(sample, "WORLD");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string ends with whitespace suffix" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello world ");
+    sample = c_string.cstring_create(sample, "world");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string ends with special characters" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+
+    buffer = c_string.cstring_create(buffer, "hello world!@#");
+    sample = c_string.cstring_create(sample, "!@#");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result == true);
+}
