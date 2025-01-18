@@ -176,3 +176,34 @@ test "trims a string" {
     try std.testing.expectEqualStrings("hello", toZigStr(buffer.*.text));
     try std.testing.expect(buffer.*.length == 5);
 }
+
+test "string starts with positive case" {
+    var buffer: [*c]c_string.String = undefined;
+    var sample: [*c]c_string.String = undefined;
+}
+
+test "string starts with negative case" {
+    var buffer: [*c]c_string.String = undefined;
+
+    var sample: [*c]c_string.String = undefined;
+    sample = c_string.cstring_create(sample, "orld");
+
+    buffer = c_string.cstring_create(buffer, "hello world");
+
+    const result = c_string.cstring_startsWith(buffer, sample);
+
+    try std.testing.expect(result == false);
+}
+
+test "string ends with" {
+    var buffer: [*c]c_string.String = undefined;
+
+    var sample: [*c]c_string.String = undefined;
+    sample = c_string.cstring_create(sample, "orld");
+
+    buffer = c_string.cstring_create(buffer, "hello world");
+
+    const result = c_string.cstring_endsWith(buffer, sample);
+
+    try std.testing.expect(result);
+}

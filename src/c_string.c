@@ -193,3 +193,19 @@ bool cstring_equals(String* s, String* t) {
 
 	return strcmp(s->text, t->text) == 0;
 }
+
+bool cstring_startsWith(String* s, String* t) {
+	if (strstr(s->text, t->text) == s->text) {
+		return true;
+	}
+
+	return false;
+}
+
+bool cstring_endsWith(String* s, String* t) {
+	if (strcmp(strstr(s->text, t->text), t->text) == 0) {
+		return true;
+	}
+
+	return false;
+}
