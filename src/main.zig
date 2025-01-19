@@ -486,3 +486,21 @@ test "splits a string with special characters" {
     try std.testing.expectEqualStrings("hello!@#world$%^how&*are", toZigStr(buffer.*.strings[0].*.text));
     try std.testing.expectEqualStrings("you", toZigStr(buffer.*.strings[1].*.text));
 }
+
+test "converts a character to a string" {
+    var buffer: [*c]c_string.String = undefined;
+    buffer = c_string.cstring_charToString(buffer, 'a');
+    try std.testing.expectEqualStrings("a", toZigStr(buffer.*.text));
+}
+
+test "finds the index of a substring" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello, there");
+    substr = c_string.cstring_create(substr, "er");
+
+    const index = c_string.cstring_indexOf(str, substr);
+
+    try std.testing.expect(index == 9);
+}

@@ -217,3 +217,42 @@ bool cstring_endsWith(String* s, String* t) {
 
 	return false;
 }
+
+String* cstring_charToString(String* result, const char c) {
+	result = malloc(sizeof(String));
+	if (result == NULL) {
+		fprintf(stderr, "Could not allocate memory.\n");
+		exit(1);
+	}
+	
+	char* text = malloc(sizeof(char) * 2);
+	if (text == NULL) {
+		fprintf(stderr, "Could not allocate memory\n");
+		exit(1);
+	}
+
+	text[0] = c;
+	text[1] = '\0';
+
+	result->text = text;
+	result->length = 1;
+
+	return result;
+}
+
+uint32_t cstring_indexOf(String* s, String* t) {
+	if (s->text == NULL || s->length == 0) {
+		return -1;
+	}
+
+	if (t->text == NULL || t->length == 0) {
+		return 0;
+	}
+
+	char* ptr = strstr(s->text, t->text);
+	if (ptr == NULL) {
+		return -1;
+	}
+
+	return (uint32_t) (ptr - s->text);
+}

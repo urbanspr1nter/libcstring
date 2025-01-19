@@ -28,5 +28,7 @@ void cstring_free(String* s);
 bool cstring_equals(String* s, String* t);
 bool cstring_startsWith(String* s, String* t);
 bool cstring_endsWith(String* s, String* t);
+String* cstring_charToString(String* result, const char c);
+uint32_t cstring_indexOf(String* s, String* t);
 
 #endif
