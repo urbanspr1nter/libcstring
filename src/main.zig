@@ -493,7 +493,7 @@ test "converts a character to a string" {
     try std.testing.expectEqualStrings("a", toZigStr(buffer.*.text));
 }
 
-test "finds the index of a substring" {
+test "finds the index of occurrence of string given a substring" {
     var str: [*c]c_string.String = undefined;
     var substr: [*c]c_string.String = undefined;
 
@@ -580,4 +580,88 @@ test "is substring of another - case sensitive" {
     const result = c_string.cstring_isSubstring(str, substr);
 
     try std.testing.expect(!result);
+}
+
+test "finds the index of occurrence of string given a substring - full match" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello, there");
+    substr = c_string.cstring_create(substr, "hello, there");
+
+    const index = c_string.cstring_indexOf(str, substr);
+
+    try std.testing.expect(index == 0);
+}
+
+test "finds the index of occurrence of string given a substring - not found" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello, there");
+    substr = c_string.cstring_create(substr, "goodbye");
+
+    const index = c_string.cstring_indexOf(str, substr);
+
+    try std.testing.expect(index == -1);
+}
+
+test "finds the index of occurrence of string given a substring - empty substring" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello, there");
+    substr = c_string.cstring_create(substr, "");
+
+    const index = c_string.cstring_indexOf(str, substr);
+
+    try std.testing.expect(index == 0);
+}
+
+test "finds the index of occurrence of string given a substring - empty string" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "");
+    substr = c_string.cstring_create(substr, "hello");
+
+    const index = c_string.cstring_indexOf(str, substr);
+
+    try std.testing.expect(index == -1);
+}
+
+test "finds the index of occurrence of string given a substring - both empty" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "");
+    substr = c_string.cstring_create(substr, "");
+
+    const index = c_string.cstring_indexOf(str, substr);
+
+    try std.testing.expect(index == 0);
+}
+
+test "finds the index of occurrence of string given a substring - multiple occurrences" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "banana");
+    substr = c_string.cstring_create(substr, "ana");
+
+    const index = c_string.cstring_indexOf(str, substr);
+
+    try std.testing.expect(index == 1);
+}
+
+test "finds the index of occurrence of string given a substring - case sensitive" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "Hello, There");
+    substr = c_string.cstring_create(substr, "hello");
+
+    const index = c_string.cstring_indexOf(str, substr);
+
+    try std.testing.expect(index == -1);
 }

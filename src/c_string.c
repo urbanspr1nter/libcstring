@@ -256,12 +256,20 @@ String* cstring_charToString(String* result, const char c) {
 	return result;
 }
 
-uint32_t cstring_indexOf(String* s, String* t) {
-	if (s->text == NULL || s->length == 0) {
+int32_t cstring_indexOf(String* s, String* t) {
+	if (s->text == NULL || t->text == NULL) {
 		return -1;
 	}
 
-	if (t->text == NULL || t->length == 0) {
+	if (s->length == 0 && t->length == 0) {
+		return 0;
+	}
+	
+	if (s->length == 0) {
+		return -1;
+	}
+
+	if (t->length == 0) {
 		return 0;
 	}
 
@@ -270,5 +278,5 @@ uint32_t cstring_indexOf(String* s, String* t) {
 		return -1;
 	}
 
-	return (uint32_t) (ptr - s->text);
+	return (int32_t) (ptr - s->text);
 }
