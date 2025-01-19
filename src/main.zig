@@ -504,3 +504,80 @@ test "finds the index of a substring" {
 
     try std.testing.expect(index == 9);
 }
+
+test "is substring of another" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello world - how are you?");
+    substr = c_string.cstring_create(substr, "ow ar");
+    const result = c_string.cstring_isSubstring(str, substr);
+
+    try std.testing.expect(result);
+}
+
+test "is substring of another - full match" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello world - how are you?");
+    substr = c_string.cstring_create(substr, "hello world - how are you?");
+    const result = c_string.cstring_isSubstring(str, substr);
+
+    try std.testing.expect(result);
+}
+
+test "is substring of another - not a substring" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello world - how are you?");
+    substr = c_string.cstring_create(substr, "goodbye");
+    const result = c_string.cstring_isSubstring(str, substr);
+
+    try std.testing.expect(!result);
+}
+
+test "is substring of another - empty substring" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "hello world - how are you?");
+    substr = c_string.cstring_create(substr, "");
+    const result = c_string.cstring_isSubstring(str, substr);
+
+    try std.testing.expect(!result);
+}
+
+test "is substring of another - empty string" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "");
+    substr = c_string.cstring_create(substr, "hello");
+    const result = c_string.cstring_isSubstring(str, substr);
+
+    try std.testing.expect(!result);
+}
+
+test "is substring of another - both empty" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "");
+    substr = c_string.cstring_create(substr, "");
+    const result = c_string.cstring_isSubstring(str, substr);
+
+    try std.testing.expect(!result);
+}
+
+test "is substring of another - case sensitive" {
+    var str: [*c]c_string.String = undefined;
+    var substr: [*c]c_string.String = undefined;
+
+    str = c_string.cstring_create(str, "Hello World - How Are You?");
+    substr = c_string.cstring_create(substr, "hello");
+    const result = c_string.cstring_isSubstring(str, substr);
+
+    try std.testing.expect(!result);
+}

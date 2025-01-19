@@ -218,6 +218,22 @@ bool cstring_endsWith(String* s, String* t) {
 	return false;
 }
 
+bool cstring_isSubstring(String* s, String* t) {
+	if (t->length == 0 || t->text == NULL) {
+		return false;
+	}
+
+	if (s->length == 0 || s->text == NULL) {
+		return false;
+	}
+
+	if (strstr(s->text, t->text) != NULL) {
+		return true;
+	}
+
+	return false;
+}
+
 String* cstring_charToString(String* result, const char c) {
 	result = malloc(sizeof(String));
 	if (result == NULL) {
