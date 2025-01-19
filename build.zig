@@ -11,7 +11,7 @@ pub fn build(b: *std.Build) void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{ .preferred_optimize_mode = .ReleaseSafe });
 
-    const lib = b.addSharedLibrary(.{ .name = "cstring", .target = target, .optimize = optimize, .link_libc = true });
+    const lib = b.addSharedLibrary(.{ .name = "cstring", .target = target, .optimize = optimize, .link_libc = true, .version = .{ .major = 1, .minor = 0, .patch = 0 } });
     lib.addIncludePath(b.path("src"));
     lib.addCSourceFiles(.{
         .root = b.path("src"),
