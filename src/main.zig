@@ -49,6 +49,104 @@ test "checks if strings are equal" {
     try std.testing.expect(c_string.cstring_equals(buffer_1, buffer_2));
 }
 
+test "checks if strings of different cases are equal" {
+    var buffer_1: [*c]c_string.String = undefined;
+    var buffer_2: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "hello");
+    buffer_2 = c_string.cstring_create(buffer_2, "HEllo");
+
+    try std.testing.expect(!c_string.cstring_equals(buffer_1, buffer_2));
+}
+
+test "checks if an empty string is equal to a string with content" {
+    var buffer_1: [*c]c_string.String = undefined;
+    var buffer_2: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "hello");
+    buffer_2 = c_string.cstring_create(buffer_2, "");
+
+    try std.testing.expect(!c_string.cstring_equals(buffer_1, buffer_2));
+}
+
+test "checks if a string with whitespaces is equal to a string with content" {
+    var buffer_1: [*c]c_string.String = undefined;
+    var buffer_2: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "hello ");
+    buffer_2 = c_string.cstring_create(buffer_2, "   hello ");
+
+    try std.testing.expect(!c_string.cstring_equals(buffer_1, buffer_2));
+}
+
+test "checks if a string with whitespaces is equal to a string with whitespaces" {
+    var buffer_1: [*c]c_string.String = undefined;
+    var buffer_2: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "   hello ");
+    buffer_2 = c_string.cstring_create(buffer_2, "   hello ");
+
+    try std.testing.expect(c_string.cstring_equals(buffer_1, buffer_2));
+}
+
+test "checks if strings of different length are equal" {
+    var buffer_1: [*c]c_string.String = undefined;
+    var buffer_2: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "hello");
+    buffer_2 = c_string.cstring_create(buffer_2, "hello, world");
+
+    try std.testing.expect(!c_string.cstring_equals(buffer_1, buffer_2));
+}
+
+test "checks if strings are equal with a buffer" {
+    var buffer_1: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "test string");
+
+    try std.testing.expect(c_string.cstring_equalsBuffer(buffer_1, "test string"));
+}
+
+test "checks if strings of different cases are equal with a buffer" {
+    var buffer_1: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "hello");
+
+    try std.testing.expect(!c_string.cstring_equalsBuffer(buffer_1, "HELLO"));
+}
+
+test "checks if an empty string is equal to a string with content buffer" {
+    var buffer_1: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "hello");
+
+    try std.testing.expect(!c_string.cstring_equalsBuffer(buffer_1, ""));
+}
+
+test "checks if a string with whitespaces is equal to a string with content buffer" {
+    var buffer_1: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "hello ");
+
+    try std.testing.expect(!c_string.cstring_equalsBuffer(buffer_1, "   hello "));
+}
+
+test "checks if a string with whitespaces is equal to a string with whitespaces buffer" {
+    var buffer_1: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "   hello ");
+
+    try std.testing.expect(c_string.cstring_equalsBuffer(buffer_1, "   hello "));
+}
+
+test "checks if strings of different length are equal buffer" {
+    var buffer_1: [*c]c_string.String = undefined;
+
+    buffer_1 = c_string.cstring_create(buffer_1, "hello");
+
+    try std.testing.expect(!c_string.cstring_equalsBuffer(buffer_1, "hello, world"));
+}
+
 test "concatenation of a single string" {
     var buffer_1: [*c]c_string.String = undefined;
     buffer_1 = c_string.cstring_create(buffer_1, "hello");

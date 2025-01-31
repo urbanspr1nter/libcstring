@@ -26,6 +26,7 @@ String* cstring_trim(String* result, String* s);
 StringList* cstring_split(StringList* result, String* s, const char separator);
 void cstring_free(String* s);
 bool cstring_equals(String* s, String* t);
+bool cstring_equalsBuffer(String* s, const char* t);
 bool cstring_startsWith(String* s, String* t);
 bool cstring_endsWith(String* s, String* t);
 bool cstring_isSubstring(String* s, String* t);

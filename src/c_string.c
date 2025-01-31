@@ -17,7 +17,7 @@ String* cstring_create(String* result, const char* s) {
 
 	result = malloc(sizeof(String));	
 	if (result == NULL) {
-		fprintf(stderr, "Error allocating memory\n");
+		fprintf(stderr, "cstring_create - Error allocating memory\n");
 		exit(1);
 	}
 
@@ -32,13 +32,13 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 
 	result = malloc(sizeof(String));
 	if (result == NULL) {
-		fprintf(stderr, "Error allocating memory\n");
+		fprintf(stderr, "cstring_concat - Error allocating memory\n");
 		exit(1);
 	}
 
 	result->text = malloc(sizeof(char) * 1);
 	if (result->text == NULL) { 
-		fprintf(stderr, "Error allocating memory\n");
+		fprintf(stderr, "cstring_concat - Error allocating memory\n");
 		exit(1);
 	}
 
@@ -56,7 +56,7 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 
 		result->text = realloc(result->text, sizeof(char) * currLength);		
 		if (result->text == NULL) {
-			fprintf(stderr, "Error allocating memory\n");
+			fprintf(stderr, "cstring_concat - Error allocating memory\n");
 			exit(1);
 		}
 
@@ -74,7 +74,7 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 String* cstring_ltrim(String* result, String* s) {
 	result = malloc(sizeof(String));
 	if (result == NULL) { 
-		fprintf(stderr, "Error allocating memory\n");
+		fprintf(stderr, "cstring_ltrim - Error allocating memory\n");
 		exit(1); 
 	}
 
@@ -95,7 +95,7 @@ String* cstring_ltrim(String* result, String* s) {
 String* cstring_rtrim(String* result, String* s) {
 	result = malloc(sizeof(String));
 	if (result == NULL) {
-		fprintf(stderr, "Error allocating memory\n");
+		fprintf(stderr, "cstring_rtrim - Error allocating memory\n");
 		exit(1);
 	}
 
@@ -129,7 +129,7 @@ String* cstring_trim(String* result, String* s) {
 
 StringList* cstring_split(StringList* result, String* s, const char separator) {
 	if (s == NULL) {
-		fprintf(stderr, "Must provide a string to split.\n");
+		fprintf(stderr, "cstring_split - Must provide a string to split.\n");
 		exit(1);
 	}
 
@@ -137,7 +137,7 @@ StringList* cstring_split(StringList* result, String* s, const char separator) {
 	
 	char* separatorString = malloc(sizeof(char) * 2);
 	if (separatorString == NULL) {
-		fprintf(stderr, "Couldn't allocate memory for the separator string.\n");	
+		fprintf(stderr, "cstring_split - Couldn't allocate memory for the separator string.\n");	
 		exit(1);
 	}
 	separatorString[0] = separator;
@@ -149,7 +149,7 @@ StringList* cstring_split(StringList* result, String* s, const char separator) {
 	uint32_t elementCount = 0;
 	result = malloc(sizeof(StringList));
 	if (result == NULL) {
-		fprintf(stderr, "Couldn't allocate memory for the result pointer.\n");
+		fprintf(stderr, "cstring_split - Couldn't allocate memory for the result pointer.\n");
 		exit(1);
 	}
 
@@ -157,7 +157,7 @@ StringList* cstring_split(StringList* result, String* s, const char separator) {
 		elementCount++;
 		result->strings = realloc(result->strings, sizeof(String*) * elementCount);
 		if (result->strings == NULL) {
-			fprintf(stderr, "Couldn't allocate memory for result strings.\n");
+			fprintf(stderr, "cstring_split - Couldn't allocate memory for result strings.\n");
 			exit(1);
 		}
 
@@ -192,6 +192,18 @@ bool cstring_equals(String* s, String* t) {
 	}
 
 	return strcmp(s->text, t->text) == 0;
+}
+
+bool cstring_equalsBuffer(String* s, const char* t) {
+	if (s->length != strlen(t)) {
+		return false;
+	}
+
+	if (strcmp(s->text, t) != 0) {
+		return false;
+	}
+
+	return true;
 }
 
 bool cstring_startsWith(String* s, String* t) {
@@ -237,13 +249,13 @@ bool cstring_isSubstring(String* s, String* t) {
 String* cstring_charToString(String* result, const char c) {
 	result = malloc(sizeof(String));
 	if (result == NULL) {
-		fprintf(stderr, "Could not allocate memory.\n");
+		fprintf(stderr, "cstring_charToString - Could not allocate memory.\n");
 		exit(1);
 	}
 	
 	char* text = malloc(sizeof(char) * 2);
 	if (text == NULL) {
-		fprintf(stderr, "Could not allocate memory\n");
+		fprintf(stderr, "cstring_charToString - Could not allocate memory\n");
 		exit(1);
 	}
 
