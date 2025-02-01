@@ -58,13 +58,8 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 
 		// Add an extra character to realloc an additional character 
 		// if it is the last string just enough for the null terminating byte.
-		uint64_t additionalLength = 0;
-		if (i == count - 1 || curr->length == 0) {
-			additionalLength = curr->length + 1;
-		} else {
-			additionalLength = curr->length;
-		}
-		currLength += additionalLength;
+		uint64_t additionalLength = curr->length + 1;
+		currLength += additionalLength + 1;
 
 		result->text = realloc(result->text, sizeof(char) * currLength);		
 		if (result->text == NULL) {
