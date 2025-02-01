@@ -18,6 +18,21 @@ test "creates a string" {
     try std.testing.expectEqual(11, buffer.*.length);
 }
 
+test "creates many strings" {
+    var buffer: [*c]c_string.String = undefined;
+
+    var i: u32 = 0;
+    while (i < 10000) {
+        buffer = c_string.cstring_create(buffer, "hello world");
+        try std.testing.expectEqualStrings("hello world", toZigStr(buffer.*.text));
+        try std.testing.expectEqual(11, buffer.*.length);
+    
+        c_string.cstring_free(buffer);
+
+        i += 1;
+    }
+}
+
 test "creates an empty string" {
     var buffer: [*c]c_string.String = undefined;
 

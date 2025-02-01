@@ -5,18 +5,15 @@
 #include <stdint.h>
 #include <stdarg.h>
 
-extern struct String {
+typedef struct String {
 	char* text;
 	uint32_t length;
-};
+} String;
 
-extern struct StringList {
+typedef struct StringList {
 	struct String** strings;
 	uint32_t length;
-};
-
-typedef struct String String;
-typedef struct StringList StringList;
+} StringList;
 
 String* cstring_create(String* result, const char* s);
 String* cstring_concat(String* result, uint32_t count, ...);
