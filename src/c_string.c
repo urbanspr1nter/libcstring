@@ -34,6 +34,7 @@ String* cstring_create(String* result, const char* s) {
 }
 
 String* cstring_concat(String* result, uint32_t count, ...) {
+	String* oldResult = result;
 	uint32_t currLength = 0;
 
 	result = malloc(sizeof(String));
@@ -73,6 +74,8 @@ String* cstring_concat(String* result, uint32_t count, ...) {
 	va_end(args);
 
 	result->length = strlen(result->text);	
+
+	cstring_free(oldResult);
 
 	return result;
 }
