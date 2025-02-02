@@ -124,10 +124,10 @@ String* cstring_rtrim(String* result, String* s) {
 }
 
 String* cstring_trim(String* result, String* s) {
-	String* ltrimmed;
+	String* ltrimmed = NULL;
 	ltrimmed = cstring_ltrim(ltrimmed, s);
 
-	String* rtrimmed;
+	String* rtrimmed = NULL;
 	rtrimmed = cstring_rtrim(rtrimmed, ltrimmed);
 
 	result = rtrimmed;
