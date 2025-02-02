@@ -169,7 +169,7 @@ StringList* cstring_split(StringList* result, String* s, const char separator) {
 		}
 
 		uint32_t index = elementCount - 1;
-		*(result->strings + index) = cstring_create(result->strings + index, token);
+		*(result->strings + index) = cstring_create(*(result->strings + index), token);
 
 		token = strtok_r(NULL, separatorString, &savedPtr);
 	}
